@@ -1,0 +1,21 @@
+# Node and general dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Supabase local state
+.supabase/
+supabase/.branches/
+supabase/.temp/
+
+# OS junk
+.DS_Store
+Thumbs.db
