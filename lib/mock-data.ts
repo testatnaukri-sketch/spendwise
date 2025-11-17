@@ -1,71 +1,126 @@
-import { Profile, ProfileFormData } from './profile-schema'
+import { supabase } from './supabase'
 
-export const mockProfileFormData: ProfileFormData = {
-  full_name: 'Demo User',
-  email: 'demo@example.com',
-  phone: '+1 (555) 123-4567',
-  date_of_birth: '1990-01-15',
-  employment_status: 'employed',
-  monthly_income: 5000,
-  fixed_expenses: 2000,
-  savings_goal: 10000,
-  risk_tolerance: 'moderate',
-  financial_goals: ['emergency fund', 'vacation', 'home purchase'],
-  preferred_currency: 'USD',
+function getSupabaseClient() {
+  if (!supabase) {
+    throw new Error('Supabase client not initialized. Please check your environment variables.')
+  }
+  return supabase
 }
 
-export const mockProfile: Profile = {
-  id: 'profile-demo-1',
-  user_id: 'demo-user',
-  full_name: 'Demo User',
-  email: 'demo@example.com',
-  phone: '+1 (555) 123-4567',
-  date_of_birth: '1990-01-15',
-  employment_status: 'employed',
-  monthly_income: 5000,
-  fixed_expenses: 2000,
-  savings_goal: 10000,
-  risk_tolerance: 'moderate',
-  financial_goals: ['emergency fund', 'vacation', 'home purchase'],
-  preferred_currency: 'USD',
-  created_at: '2024-01-01T00:00:00Z',
-  updated_at: '2024-01-01T00:00:00Z',
+export interface MockExpense {
+  amount: number
+  description: string
+  category: string
+  user_id: string
 }
 
-export const mockProfiles: Profile[] = [
-  mockProfile,
-  {
-    id: 'profile-user-2',
-    user_id: 'user-2',
-    full_name: 'Jane Smith',
-    email: 'jane@example.com',
-    phone: '+1 (555) 234-5678',
-    date_of_birth: '1985-05-20',
-    employment_status: 'self-employed',
-    monthly_income: 7500,
-    fixed_expenses: 3000,
-    savings_goal: 25000,
-    risk_tolerance: 'aggressive',
-    financial_goals: ['retirement', 'investment portfolio'],
-    preferred_currency: 'USD',
-    created_at: '2024-01-15T00:00:00Z',
-    updated_at: '2024-01-15T00:00:00Z',
-  },
-  {
-    id: 'profile-user-3',
-    user_id: 'user-3',
-    full_name: 'Robert Johnson',
-    email: 'robert@example.com',
-    phone: null,
-    date_of_birth: null,
-    employment_status: 'unemployed',
-    monthly_income: 0,
-    fixed_expenses: 1000,
-    savings_goal: 5000,
-    risk_tolerance: 'conservative',
-    financial_goals: null,
-    preferred_currency: 'USD',
-    created_at: '2024-02-01T00:00:00Z',
-    updated_at: '2024-02-01T00:00:00Z',
-  },
+export interface MockGoal {
+  name: string
+  target_amount: number
+  current_amount: number
+  user_id: string
+}
+
+const expenseDescriptions = [
+  'Grocery shopping',
+  'Coffee',
+  'Lunch with colleagues',
+  'Gas station',
+  'Electric bill',
+  'Internet subscription',
+  'Netflix',
+  'Gym membership',
+  'Restaurant dinner',
+  'Uber ride',
+  'Book purchase',
+  'Phone bill',
+  'Car insurance',
+  'Home supplies',
+  'Pharmacy',
 ]
+
+const categories = ['Food', 'Transportation', 'Utilities', 'Entertainment', 'Healthcare', 'Shopping', 'Other']
+
+const goalNames = [
+  'Emergency Fund',
+  'Vacation Fund',
+  'New Car',
+  'House Down Payment',
+  'Wedding Fund',
+  'New Laptop',
+  'Investment Portfolio',
+  'Education Fund',
+]
+
+export async function generateMockExpenses(userId: string, count: number = 20) {
+  const expenses: MockExpense[] = []
+  
+  for (let i = 0; i < count; i++) {
+    const daysAgo = Math.floor(Math.random() * 90) // Last 90 days
+    const date = new Date()
+    date.setDate(date.getDate() - daysAgo)
+    
+    expenses.push({
+      amount: Math.round((Math.random() * 200 + 5) * 100) / 100, // $5-$205
+      description: expenseDescriptions[Math.floor(Math.random() * expenseDescriptions.length)],
+      category: categories[Math.floor(Math.random() * categories.length)],
+      user_id: userId,
+    })
+  }
+
+  try {
+    const client = getSupabaseClient()
+    const { data, error } = await client
+      .from('expenses')
+      .insert(expenses)
+      .select()
+
+    if (error) throw error
+    return data
+  } catch (error) {
+    console.error('Error generating mock expenses:', error)
+    throw error
+  }
+}
+
+export async function generateMockGoals(userId: string, count: number = 5) {
+  const goals: MockGoal[] = []
+  
+  for (let i = 0; i < count; i++) {
+    const targetAmount = Math.round((Math.random() * 10000 + 1000) * 100) / 100 // $1000-$11000
+    const progressPercentage = Math.random() * 0.8 // 0-80% progress
+    const currentAmount = Math.round(targetAmount * progressPercentage * 100) / 100
+    
+    goals.push({
+      name: goalNames[Math.floor(Math.random() * goalNames.length)],
+      target_amount: targetAmount,
+      current_amount: currentAmount,
+      user_id: userId,
+    })
+  }
+
+  try {
+    const client = getSupabaseClient()
+    const { data, error } = await client
+      .from('goals')
+      .insert(goals)
+      .select()
+
+    if (error) throw error
+    return data
+  } catch (error) {
+    console.error('Error generating mock goals:', error)
+    throw error
+  }
+}
+
+export async function clearMockData(userId: string) {
+  try {
+    const client = getSupabaseClient()
+    await client.from('expenses').delete().eq('user_id', userId)
+    await client.from('goals').delete().eq('user_id', userId)
+  } catch (error) {
+    console.error('Error clearing mock data:', error)
+    throw error
+  }
+}

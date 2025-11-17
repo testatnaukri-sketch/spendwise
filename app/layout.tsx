@@ -1,23 +1,20 @@
-import type { Metadata } from 'next'
-import { Toaster } from 'sonner'
-import './globals.css'
+import type { Metadata } from 'next';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Spendwise - Personal Finance Management',
-  description: 'Manage your finances with ease',
-}
+  title: 'Spendwise - AI-Powered Personal Finance Advisor',
+  description:
+    'Get personalized AI-powered recommendations for smarter spending decisions',
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body>
-        {children}
-        <Toaster />
-      </body>
+      <body>{children}</body>
     </html>
-  )
+  );
 }

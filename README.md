@@ -1,42 +1,107 @@
-# Spendwise
+# Spendwise Analytics Suite
 
-Personal Finance Management Made Simple.
-
-Spendwise is a web application that helps users manage their finances effectively. Track income, expenses, and work towards financial goals with intuitive tools and detailed insights.
+A comprehensive analytics dashboard for the Spendwise expense tracking application. Built with React, TypeScript, Express, and Supabase, providing detailed financial insights with interactive charts, advanced filtering, and data export capabilities.
 
 ## Features
 
-### Profile Module ✅
+### Analytics Dashboard
+- **Category Spending Breakdown** - Pie chart visualization of expenses by category
+- **Monthly Trends** - Multi-series bar chart showing income, expenses, and net cash flow
+- **Summary Statistics** - Quick overview of total income, expenses, and balance
+- **Spending Anomalies** - AI-assisted detection of unusual spending patterns
+- **Financial Forecasts** - Predictive projections for future months based on historical data
 
-Manage your personal and financial information:
-- **Personal Information**: Name, email, phone, date of birth, employment status
-- **Financial Overview**: Monthly income, fixed expenses, savings goals
-- **Risk Preferences**: Set risk tolerance and financial goals
-- **Spending Capacity**: Automatically calculated available spending and savings rate
-- **Secure Storage**: All data securely stored in Supabase with Row Level Security
+### Interactive Filters
+- Date range selection with preset ranges (7 days, 30 days, 90 days, 1 year)
+- Category filtering for focused analysis
+- Transaction type filtering (income, expense, or all)
+- Advanced filter options for power users
 
-### Form Validation
+### Export Capabilities
+- **CSV Export** - Comprehensive data export with all metrics and category breakdowns
+- **PDF Export** - Professional formatted reports with charts and tables
+- Automated filename generation with timestamps
 
-- React Hook Form for robust form management
-- Zod for comprehensive data validation
-- User-friendly error messages
-- Success notifications with Sonner
+### Data Management
+- Real-time data fetching from Supabase
+- Pagination and virtualization support for large datasets
+- Efficient data aggregation and calculations
+- Performance optimized queries
 
-### Testing & Quality
+## Technology Stack
 
-- Comprehensive unit tests for utilities and schemas
-- Component tests for UI elements
-- Integration tests for profile operations
-- PII security testing to ensure sensitive data is never logged
-- Full TypeScript support
+### Frontend
+- **React 18** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Build tool
+- **Tailwind CSS** - Styling
+- **Recharts** - Data visualization
+- **Lucide React** - Icons
+- **date-fns** - Date utilities
 
-## Quick Start
+### Backend
+- **Express.js** - Server framework
+- **TypeScript** - Type safety
+- **CORS** - Cross-origin support
+
+### Database & Auth
+- **Supabase** - PostgreSQL database with built-in auth
+- **@supabase/supabase-js** - Supabase client library
+
+### Testing
+- **Vitest** - Unit testing framework
+- **@testing-library/react** - React testing utilities
+- **@testing-library/jest-dom** - DOM matchers
+
+### Code Quality
+- **ESLint** - Linting
+- **Prettier** - Code formatting
+- **TypeScript** - Type checking
+
+## Project Structure
+
+```
+spendwise/
+├── src/
+│   ├── client/              # React frontend
+│   │   ├── App.tsx          # Main App component
+│   │   ├── main.tsx         # Entry point
+│   │   └── index.css        # Global styles
+│   ├── server/              # Express backend
+│   │   ├── index.ts         # Server setup
+│   │   └── routes/          # API route handlers
+│   ├── components/          # React components
+│   │   ├── AnalyticsDashboard.tsx
+│   │   ├── SummaryStats.tsx
+│   │   ├── CategoryBreakdown.tsx
+│   │   ├── MonthlyTrends.tsx
+│   │   ├── AnalyticsFilters.tsx
+│   │   ├── ExportControls.tsx
+│   │   └── AnomaliesPanel.tsx
+│   ├── hooks/               # Custom React hooks
+│   │   └── useAnalyticsData.ts
+│   ├── utils/               # Utility functions
+│   │   ├── supabase.ts      # Supabase client setup
+│   │   ├── analyticsData.ts # Data fetching functions
+│   │   ├── filtering.ts     # Filter utilities
+│   │   ├── exporters.ts     # CSV/PDF export functions
+│   │   └── __tests__/       # Unit tests
+│   ├── types/               # TypeScript type definitions
+│   └── test/                # Test setup
+├── index.html               # HTML entry point
+├── package.json             # Dependencies
+├── tsconfig.json            # TypeScript config
+├── vite.config.ts           # Vite config
+├── vitest.config.ts         # Vitest config
+└── tailwind.config.js       # Tailwind CSS config
+```
+
+## Installation
 
 ### Prerequisites
-
-- Node.js 18+
+- Node.js 16+
 - npm or yarn
-- Supabase account (free tier available)
+- Supabase account with configured database
 
 ### Setup
 
@@ -51,143 +116,204 @@ cd spendwise
 npm install
 ```
 
-3. Configure environment variables:
-```bash
-cp .env.local.example .env.local
-# Edit .env.local with your Supabase credentials
+3. Environment Configuration:
+Create a `.env` file in the root directory:
+```env
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
-4. Set up the database:
-   - Go to your Supabase project
-   - Run the SQL schema from `supabase/schema.sql`
+## Development
 
-5. Start the development server:
+### Start Development Servers
+
+Frontend and backend:
 ```bash
 npm run dev
 ```
 
-6. Open [http://localhost:3000](http://localhost:3000)
-
-## Usage
-
-### View and Edit Your Profile
-
-1. Navigate to the profile page
-2. View your current profile information and financial metrics
-3. Click "Edit Profile" to make changes
-4. Fill in your personal and financial information
-5. Submit the form to save changes
-
-### Understanding Your Metrics
-
-- **Monthly Income**: Your total monthly earnings
-- **Fixed Expenses**: Regular monthly expenses (rent, utilities, etc.)
-- **Available Spending**: Income minus fixed expenses
-- **Savings Rate**: Percentage of income available for savings
-
-## Project Structure
-
-```
-├── app/                          # Next.js app directory
-│   ├── api/profile/route.ts      # Profile API endpoints
-│   ├── profile/page.tsx          # Profile page
-│   └── layout.tsx                # Root layout
-├── components/                   # React components
-│   ├── ProfileForm.tsx           # Profile form component
-│   ├── ProfileCard.tsx           # Profile display component
-│   └── ProfilePage.tsx           # Profile container
-├── lib/                          # Utilities and hooks
-│   ├── hooks/                    # Custom React hooks
-│   ├── profile-schema.ts         # Zod validation schemas
-│   ├── profile-utils.ts          # Profile utility functions
-│   └── supabase.ts               # Supabase client
-├── __tests__/                    # Test files
-└── supabase/schema.sql           # Database schema
-```
-
-## API Reference
-
-### GET /api/profile?userId=<userId>
-
-Fetch user profile
-
-### POST /api/profile
-
-Create a new profile
-
-### PUT /api/profile
-
-Update user profile
-
-### DELETE /api/profile?userId=<userId>
-
-Delete user profile
-
-See [DEVELOPMENT.md](./DEVELOPMENT.md) for detailed API documentation.
-
-## Development
-
-### Run Tests
-
+Frontend only:
 ```bash
-npm test              # Run tests once
-npm run test:watch    # Run tests in watch mode
+npm run dev:client
 ```
 
-### Linting
-
+Backend only:
 ```bash
-npm run lint
+npm run dev:server
 ```
 
 ### Build
 
 ```bash
 npm run build
-npm start
 ```
 
-## Technology Stack
+This generates:
+- Client build in `dist/client`
+- Server build in `dist/server`
 
-- **Framework**: [Next.js 14](https://nextjs.org/)
-- **UI Library**: [React 18](https://react.dev/)
-- **Database**: [Supabase](https://supabase.com/) (PostgreSQL)
-- **Form Management**: [React Hook Form](https://react-hook-form.com/)
-- **Validation**: [Zod](https://zod.dev/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Notifications**: [Sonner](https://sonner.emilkowal.ski/)
-- **Testing**: [Jest](https://jestjs.io/) + [React Testing Library](https://testing-library.com/react)
+## Testing
 
-## Security
+### Run All Tests
+```bash
+npm test
+```
 
-- **Row Level Security (RLS)**: Database policies ensure users can only access their own data
-- **PII Protection**: Sensitive information is never logged
-- **Type Safety**: Full TypeScript for runtime safety
-- **Validation**: All inputs validated server and client-side
+### Watch Mode
+```bash
+npm run test:watch
+```
+
+### Coverage Report
+```bash
+npm test -- --coverage
+```
+
+## Code Quality
+
+### Linting
+```bash
+npm run lint
+```
+
+### Type Checking
+```bash
+npm run type-check
+```
+
+### Formatting
+```bash
+npm run format
+```
+
+## API Endpoints
+
+### Analytics
+- `POST /api/analytics/data` - Fetch comprehensive analytics data
+- `POST /api/analytics/categories` - Get category spending breakdown
+- `GET /api/analytics/trends` - Get monthly trends
+
+### Forecast
+- `GET /api/forecast/projections` - Get future month projections
+
+## Types
+
+### Main Types
+- `Transaction` - Individual transaction record
+- `Category` - Expense category
+- `AnalyticsData` - Complete analytics dataset
+- `AnalyticsFilters` - Filter parameters
+- `MonthlyTrend` - Monthly income/expense data
+- `CategorySpend` - Category spending summary
+- `SpendingAnomaly` - Detected spending anomaly
+- `ForecastProjection` - Predicted future financial data
+
+## Database Schema Requirements
+
+The application expects the following Supabase tables:
+
+### transactions
+```sql
+CREATE TABLE transactions (
+  id UUID PRIMARY KEY,
+  user_id UUID NOT NULL,
+  category_id UUID NOT NULL,
+  amount DECIMAL(10, 2) NOT NULL,
+  description TEXT,
+  date DATE NOT NULL,
+  type VARCHAR(10) NOT NULL, -- 'income' or 'expense'
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+### categories
+```sql
+CREATE TABLE categories (
+  id UUID PRIMARY KEY,
+  user_id UUID NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  color VARCHAR(7),
+  icon VARCHAR(50),
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+## Features Implementation Details
+
+### Category Spending Breakdown
+- Aggregates expenses by category over selected date range
+- Calculates percentages of total spending
+- Includes transaction count per category
+- Displays as interactive pie chart with legend
+
+### Monthly Trends
+- Calculates income, expenses, and net for each month
+- Supports customizable lookback period
+- Visualizes as multi-series bar chart
+- Enables year-over-year comparisons
+
+### Spending Anomalies
+- Detects outliers using statistical analysis (2+ standard deviations)
+- Calculates percentage above average
+- Sorted by date (most recent first)
+- Highlights concerning spending patterns
+
+### Forecast Projections
+- Uses linear regression on historical data
+- Generates projections for up to 12 months
+- Includes confidence scores that decrease over time
+- Helps with financial planning
+
+### Export Functionality
+- CSV format includes all numeric data
+- PDF format includes formatted tables and summary
+- Professional report generation
+- Automatic timestamp in filenames
+
+## Performance Considerations
+
+- **Pagination**: Supports pagination for large datasets
+- **Virtualization**: Charts render efficiently with Recharts
+- **Data Fetching**: Optimized Supabase queries with proper indexing
+- **Caching**: Consider implementing caching layer for historical data
+- **Real-time Updates**: Optional WebSocket integration for live updates
+
+## Error Handling
+
+- Comprehensive error boundaries
+- User-friendly error messages
+- Graceful degradation on data fetch failures
+- Retry mechanisms with exponential backoff
+- Detailed console logging for debugging
+
+## Accessibility
+
+- Semantic HTML structure
+- ARIA labels on interactive elements
+- Keyboard navigation support
+- Sufficient color contrast
+- Responsive design for all screen sizes
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
 
 ## Contributing
 
 1. Create a feature branch
 2. Make your changes
-3. Write or update tests
-4. Run linting and tests
-5. Submit a pull request
+3. Run tests and linting
+4. Submit a pull request
 
 ## License
 
-This project is part of the Spendwise personal finance application.
+MIT
 
 ## Support
 
-For issues, questions, or suggestions, please open an issue on GitHub.
-
-## Roadmap
-
-- [ ] Expense tracking and categorization
-- [ ] Goal management and progress tracking
-- [ ] Spending analytics and charts
-- [ ] Budget planning tools
-- [ ] Multi-user household support
-- [ ] Mobile application
-- [ ] Real-time notifications
-- [ ] AI-powered financial insights
+For issues and questions, please contact the development team or create an issue in the repository.
