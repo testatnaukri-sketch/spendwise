@@ -6,7 +6,8 @@
     "lib": ["ES2020"],
     "jsx": "react-jsx",
     "outDir": "./dist/server",
-    "rootDir": "./src/server",
+    "rootDir": "./src",
+    "noEmit": false,
     "resolveJsonModule": true,
     "declaration": true,
     "declarationMap": true,
@@ -21,8 +22,16 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/services/*": ["./src/services/*"]
+    }
   },
-  "include": ["src/server"],
+  "include": ["src/server", "src/utils/analyticsData.ts", "src/utils/supabase.ts", "src/utils/filtering.ts", "src/types"],
   "exclude": ["node_modules", "dist/client", "src/client", "**/*.test.ts"]
 }

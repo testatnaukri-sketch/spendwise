@@ -18,10 +18,10 @@ forecastRouter.get('/projections', async (req: Request, res: Response) => {
     }
 
     const data = await fetchForecastProjections(userId, months)
-    res.json(data)
+    return res.json(data)
   } catch (error) {
     console.error('Error fetching forecast projections:', error)
-    res.status(500).json({
+    return res.status(500).json({
       error: error instanceof Error ? error.message : 'Failed to fetch forecast projections',
     })
   }

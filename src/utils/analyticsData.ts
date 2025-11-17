@@ -8,7 +8,7 @@ import {
   SpendingAnomaly,
   Transaction,
 } from '@/types'
-import { format, startOfMonth, endOfMonth, subMonths, startOfDay, endOfDay } from 'date-fns'
+import { format, startOfMonth, endOfMonth, subMonths } from 'date-fns'
 
 export async function fetchCategorySpends(
   filters: AnalyticsFilters

@@ -3,7 +3,6 @@ import {
   fetchAnalyticsData,
   fetchCategorySpends,
   fetchMonthlyTrends,
-  fetchForecastProjections,
 } from '@/utils/analyticsData'
 import { AnalyticsFilters } from '@/types'
 import { validateDateRange } from '@/utils/filtering'
@@ -28,10 +27,10 @@ analyticsRouter.post('/data', async (req: Request, res: Response) => {
     }
 
     const data = await fetchAnalyticsData(filters)
-    res.json(data)
+    return res.json(data)
   } catch (error) {
     console.error('Error fetching analytics data:', error)
-    res.status(500).json({
+    return res.status(500).json({
       error: error instanceof Error ? error.message : 'Failed to fetch analytics data',
     })
   }
@@ -43,10 +42,10 @@ analyticsRouter.post('/categories', async (req: Request, res: Response) => {
     const filters = req.body as AnalyticsFilters
 
     const data = await fetchCategorySpends(filters)
-    res.json(data)
+    return res.json(data)
   } catch (error) {
     console.error('Error fetching category spends:', error)
-    res.status(500).json({
+    return res.status(500).json({
       error: error instanceof Error ? error.message : 'Failed to fetch category spends',
     })
   }
@@ -63,10 +62,10 @@ analyticsRouter.get('/trends', async (req: Request, res: Response) => {
     }
 
     const data = await fetchMonthlyTrends(userId, months)
-    res.json(data)
+    return res.json(data)
   } catch (error) {
     console.error('Error fetching monthly trends:', error)
-    res.status(500).json({
+    return res.status(500).json({
       error: error instanceof Error ? error.message : 'Failed to fetch monthly trends',
     })
   }
