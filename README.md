@@ -1,335 +1,319 @@
-# Spendwise
+# Spendwise Analytics Suite
 
-A modern expense tracking application built with Next.js 15 and Supabase authentication.
+A comprehensive analytics dashboard for the Spendwise expense tracking application. Built with React, TypeScript, Express, and Supabase, providing detailed financial insights with interactive charts, advanced filtering, and data export capabilities.
 
 ## Features
 
-- 🔐 **Complete Authentication System**
-  - User registration with email verification
-  - Secure login with password
-  - Password reset functionality
-  - Session management with cookies
-  - Automatic token refresh
+### Analytics Dashboard
+- **Category Spending Breakdown** - Pie chart visualization of expenses by category
+- **Monthly Trends** - Multi-series bar chart showing income, expenses, and net cash flow
+- **Summary Statistics** - Quick overview of total income, expenses, and balance
+- **Spending Anomalies** - AI-assisted detection of unusual spending patterns
+- **Financial Forecasts** - Predictive projections for future months based on historical data
 
-- 🛡️ **Security Features**
-  - Server-side session handling
-  - Protected routes with middleware
-  - Route guards for client components
-  - Secure cookie-based authentication
+### Interactive Filters
+- Date range selection with preset ranges (7 days, 30 days, 90 days, 1 year)
+- Category filtering for focused analysis
+- Transaction type filtering (income, expense, or all)
+- Advanced filter options for power users
 
-- 🎨 **Modern UI**
-  - Responsive design with Tailwind CSS
-  - Reusable component library
-  - Form validation with Zod
-  - Comprehensive error messaging
+### Export Capabilities
+- **CSV Export** - Comprehensive data export with all metrics and category breakdowns
+- **PDF Export** - Professional formatted reports with charts and tables
+- Automated filename generation with timestamps
 
-## Tech Stack
+### Data Management
+- Real-time data fetching from Supabase
+- Pagination and virtualization support for large datasets
+- Efficient data aggregation and calculations
+- Performance optimized queries
 
-- **Framework:** Next.js 15 (App Router)
-- **Authentication:** Supabase Auth
-- **Styling:** Tailwind CSS
-- **Form Management:** React Hook Form
-- **Validation:** Zod
-- **Testing:** Jest + React Testing Library
-- **TypeScript:** Full type safety
+## Technology Stack
 
-## Getting Started
+### Frontend
+- **React 18** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Build tool
+- **Tailwind CSS** - Styling
+- **Recharts** - Data visualization
+- **Lucide React** - Icons
+- **date-fns** - Date utilities
+
+### Backend
+- **Express.js** - Server framework
+- **TypeScript** - Type safety
+- **CORS** - Cross-origin support
+
+### Database & Auth
+- **Supabase** - PostgreSQL database with built-in auth
+- **@supabase/supabase-js** - Supabase client library
+
+### Testing
+- **Vitest** - Unit testing framework
+- **@testing-library/react** - React testing utilities
+- **@testing-library/jest-dom** - DOM matchers
+
+### Code Quality
+- **ESLint** - Linting
+- **Prettier** - Code formatting
+- **TypeScript** - Type checking
+
+## Project Structure
+
+```
+spendwise/
+├── src/
+│   ├── client/              # React frontend
+│   │   ├── App.tsx          # Main App component
+│   │   ├── main.tsx         # Entry point
+│   │   └── index.css        # Global styles
+│   ├── server/              # Express backend
+│   │   ├── index.ts         # Server setup
+│   │   └── routes/          # API route handlers
+│   ├── components/          # React components
+│   │   ├── AnalyticsDashboard.tsx
+│   │   ├── SummaryStats.tsx
+│   │   ├── CategoryBreakdown.tsx
+│   │   ├── MonthlyTrends.tsx
+│   │   ├── AnalyticsFilters.tsx
+│   │   ├── ExportControls.tsx
+│   │   └── AnomaliesPanel.tsx
+│   ├── hooks/               # Custom React hooks
+│   │   └── useAnalyticsData.ts
+│   ├── utils/               # Utility functions
+│   │   ├── supabase.ts      # Supabase client setup
+│   │   ├── analyticsData.ts # Data fetching functions
+│   │   ├── filtering.ts     # Filter utilities
+│   │   ├── exporters.ts     # CSV/PDF export functions
+│   │   └── __tests__/       # Unit tests
+│   ├── types/               # TypeScript type definitions
+│   └── test/                # Test setup
+├── index.html               # HTML entry point
+├── package.json             # Dependencies
+├── tsconfig.json            # TypeScript config
+├── vite.config.ts           # Vite config
+├── vitest.config.ts         # Vitest config
+└── tailwind.config.js       # Tailwind CSS config
+```
+
+## Installation
 
 ### Prerequisites
+- Node.js 16+
+- npm or yarn
+- Supabase account with configured database
 
-- Node.js 18+ and npm
-- A Supabase account and project
-
-### Installation
+### Setup
 
 1. Clone the repository:
-
 ```bash
 git clone <repository-url>
 cd spendwise
 ```
 
 2. Install dependencies:
-
 ```bash
 npm install
 ```
 
-3. Set up environment variables:
-
-Create a `.env.local` file in the root directory:
-
+3. Environment Configuration:
+Create a `.env` file in the root directory:
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
-**How to get your Supabase credentials:**
+## Development
 
-1. Go to [Supabase](https://app.supabase.com)
-2. Create a new project or select an existing one
-3. Go to Settings > API
-4. Copy the "Project URL" (for `NEXT_PUBLIC_SUPABASE_URL`)
-5. Copy the "anon public" key (for `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
+### Start Development Servers
 
-### Supabase Setup
-
-1. In your Supabase project dashboard, ensure authentication is enabled:
-   - Go to Authentication > Settings
-   - Enable "Email" provider
-   - Configure email templates (optional)
-   - Set "Site URL" to your application URL (e.g., `http://localhost:3000` for development)
-
-2. Configure email redirects:
-   - Go to Authentication > URL Configuration
-   - Add redirect URLs:
-     - `http://localhost:3000/auth/callback` (development)
-     - `https://yourdomain.com/auth/callback` (production)
-
-### Running the Application
-
-Development mode:
-
+Frontend and backend:
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Frontend only:
+```bash
+npm run dev:client
+```
 
-Production build:
+Backend only:
+```bash
+npm run dev:server
+```
+
+### Build
 
 ```bash
 npm run build
-npm start
 ```
 
-## Project Structure
-
-```
-├── app/
-│   ├── auth/
-│   │   ├── sign-in/          # Sign in page
-│   │   ├── sign-up/          # Sign up page
-│   │   ├── reset-password/   # Password reset page
-│   │   ├── callback/         # OAuth callback handler
-│   │   └── auth-code-error/  # Error page
-│   ├── protected/            # Protected route example
-│   ├── layout.tsx            # Root layout with AuthProvider
-│   └── page.tsx              # Home page
-├── components/
-│   ├── auth/
-│   │   ├── auth-guard.tsx    # Route guard HOC
-│   │   └── sign-out-button.tsx
-│   └── ui/                   # Reusable UI components
-│       ├── alert.tsx
-│       ├── button.tsx
-│       ├── card.tsx
-│       └── input.tsx
-├── context/
-│   └── auth-context.tsx      # Auth context provider
-├── lib/
-│   ├── actions/
-│   │   └── auth.ts           # Server actions for auth
-│   └── supabase/
-│       ├── client.ts         # Client-side Supabase client
-│       ├── server.ts         # Server-side Supabase client
-│       └── middleware.ts     # Middleware helper
-├── types/
-│   └── auth.ts               # TypeScript types and schemas
-├── __tests__/                # Test files
-└── middleware.ts             # Next.js middleware
-```
-
-## Authentication Flow
-
-### Sign Up
-
-1. User submits email and password
-2. Server creates account via Supabase
-3. Verification email sent to user
-4. User clicks confirmation link
-5. Redirected to callback handler
-6. Session created and user logged in
-
-### Sign In
-
-1. User submits credentials
-2. Server validates via Supabase
-3. Session cookie created
-4. User redirected to protected area
-
-### Password Reset
-
-1. User requests password reset
-2. Reset email sent with secure link
-3. User clicks link and redirected to update form
-4. New password submitted and updated
-5. User redirected to sign in
-
-### Session Management
-
-- Sessions are stored in HTTP-only cookies
-- Middleware validates sessions on protected routes
-- Automatic token refresh handled by Supabase
-- Sign out clears session and redirects to home
-
-## Middleware Protection
-
-The middleware automatically:
-
-- Redirects unauthenticated users from protected routes to `/auth/sign-in`
-- Redirects authenticated users from auth pages to `/protected`
-- Refreshes user sessions on every request
-
-Protected routes: All routes except `/`, `/auth/*`, and static files.
-
-## Client-Side Route Guards
-
-Use the `AuthGuard` component or `withAuth` HOC:
-
-```tsx
-import { AuthGuard } from '@/components/auth/auth-guard';
-
-export default function ProtectedPage() {
-  return (
-    <AuthGuard>
-      <div>Protected content</div>
-    </AuthGuard>
-  );
-}
-```
-
-Or with HOC:
-
-```tsx
-import { withAuth } from '@/components/auth/auth-guard';
-
-function ProtectedComponent() {
-  return <div>Protected content</div>;
-}
-
-export default withAuth(ProtectedComponent);
-```
-
-## Using the Auth Context
-
-Access auth state in client components:
-
-```tsx
-'use client';
-
-import { useAuth } from '@/context/auth-context';
-
-export default function MyComponent() {
-  const { user, loading, signOut } = useAuth();
-
-  if (loading) return <div>Loading...</div>;
-  if (!user) return <div>Not authenticated</div>;
-
-  return (
-    <div>
-      <p>Welcome, {user.email}</p>
-      <button onClick={signOut}>Sign Out</button>
-    </div>
-  );
-}
-```
-
-## Server-Side Auth
-
-Access user in Server Components:
-
-```tsx
-import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
-
-export default async function Page() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect('/auth/sign-in');
-  }
-
-  return <div>Welcome, {user.email}</div>;
-}
-```
+This generates:
+- Client build in `dist/client`
+- Server build in `dist/server`
 
 ## Testing
 
-Run tests:
-
+### Run All Tests
 ```bash
 npm test
 ```
 
-Run tests in watch mode:
-
+### Watch Mode
 ```bash
 npm run test:watch
 ```
 
-The test suite includes:
+### Coverage Report
+```bash
+npm test -- --coverage
+```
 
-- Form validation tests
-- Authentication flow tests
-- Context provider tests
-- Component rendering tests
+## Code Quality
 
-## Environment Variables
+### Linting
+```bash
+npm run lint
+```
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase project URL | Yes |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Your Supabase anonymous key | Yes |
-| `NEXT_PUBLIC_SITE_URL` | Your application URL | No (defaults to localhost) |
+### Type Checking
+```bash
+npm run type-check
+```
 
-## Deployment
+### Formatting
+```bash
+npm run format
+```
 
-### Vercel (Recommended)
+## API Endpoints
 
-1. Push your code to GitHub
-2. Import project in Vercel
-3. Add environment variables in project settings
-4. Deploy
+### Analytics
+- `POST /api/analytics/data` - Fetch comprehensive analytics data
+- `POST /api/analytics/categories` - Get category spending breakdown
+- `GET /api/analytics/trends` - Get monthly trends
 
-### Other Platforms
+### Forecast
+- `GET /api/forecast/projections` - Get future month projections
 
-1. Build the application: `npm run build`
-2. Set environment variables
-3. Start the server: `npm start`
+## Types
 
-**Important:** Update Supabase redirect URLs with your production domain.
+### Main Types
+- `Transaction` - Individual transaction record
+- `Category` - Expense category
+- `AnalyticsData` - Complete analytics dataset
+- `AnalyticsFilters` - Filter parameters
+- `MonthlyTrend` - Monthly income/expense data
+- `CategorySpend` - Category spending summary
+- `SpendingAnomaly` - Detected spending anomaly
+- `ForecastProjection` - Predicted future financial data
 
-## Troubleshooting
+## Database Schema Requirements
 
-### Email verification not working
+The application expects the following Supabase tables:
 
-- Check Supabase email settings
-- Verify redirect URLs are configured correctly
-- Check spam folder for verification emails
+### transactions
+```sql
+CREATE TABLE transactions (
+  id UUID PRIMARY KEY,
+  user_id UUID NOT NULL,
+  category_id UUID NOT NULL,
+  amount DECIMAL(10, 2) NOT NULL,
+  description TEXT,
+  date DATE NOT NULL,
+  type VARCHAR(10) NOT NULL, -- 'income' or 'expense'
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+```
 
-### Session not persisting
+### categories
+```sql
+CREATE TABLE categories (
+  id UUID PRIMARY KEY,
+  user_id UUID NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  color VARCHAR(7),
+  icon VARCHAR(50),
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+```
 
-- Ensure cookies are enabled in browser
-- Check that middleware is configured correctly
-- Verify environment variables are set
+## Features Implementation Details
 
-### Authentication errors
+### Category Spending Breakdown
+- Aggregates expenses by category over selected date range
+- Calculates percentages of total spending
+- Includes transaction count per category
+- Displays as interactive pie chart with legend
 
-- Verify Supabase credentials are correct
-- Check network tab for API errors
-- Review Supabase logs in dashboard
+### Monthly Trends
+- Calculates income, expenses, and net for each month
+- Supports customizable lookback period
+- Visualizes as multi-series bar chart
+- Enables year-over-year comparisons
+
+### Spending Anomalies
+- Detects outliers using statistical analysis (2+ standard deviations)
+- Calculates percentage above average
+- Sorted by date (most recent first)
+- Highlights concerning spending patterns
+
+### Forecast Projections
+- Uses linear regression on historical data
+- Generates projections for up to 12 months
+- Includes confidence scores that decrease over time
+- Helps with financial planning
+
+### Export Functionality
+- CSV format includes all numeric data
+- PDF format includes formatted tables and summary
+- Professional report generation
+- Automatic timestamp in filenames
+
+## Performance Considerations
+
+- **Pagination**: Supports pagination for large datasets
+- **Virtualization**: Charts render efficiently with Recharts
+- **Data Fetching**: Optimized Supabase queries with proper indexing
+- **Caching**: Consider implementing caching layer for historical data
+- **Real-time Updates**: Optional WebSocket integration for live updates
+
+## Error Handling
+
+- Comprehensive error boundaries
+- User-friendly error messages
+- Graceful degradation on data fetch failures
+- Retry mechanisms with exponential backoff
+- Detailed console logging for debugging
+
+## Accessibility
+
+- Semantic HTML structure
+- ARIA labels on interactive elements
+- Keyboard navigation support
+- Sufficient color contrast
+- Responsive design for all screen sizes
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Contributing
+
+1. Create a feature branch
+2. Make your changes
+3. Run tests and linting
+4. Submit a pull request
 
 ## License
 
 MIT
 
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request.
-
 ## Support
 
-For issues or questions, please open an issue on GitHub.
+For issues and questions, please contact the development team or create an issue in the repository.
