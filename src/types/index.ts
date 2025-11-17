@@ -1,75 +1,109 @@
-export interface User {
-  id: string
-  email: string
-  name?: string
-  avatar_url?: string
-  created_at: string
-}
-
-export interface Expense {
-  id: string
-  user_id: string
-  amount: number
-  category: string
-  description: string
-  date: string
-  created_at: string
-  updated_at: string
-}
-
-export interface Goal {
-  id: string
-  user_id: string
-  title: string
-  target_amount: number
-  current_amount: number
-  target_date: string
-  category: string
-  created_at: string
-  updated_at: string
-}
-
-export interface Budget {
-  id: string
-  user_id: string
-  category: string
-  limit: number
-  spent: number
-  period: 'monthly' | 'yearly'
-  created_at: string
-  updated_at: string
-}
-
+// Transaction types
 export interface Transaction {
   id: string
   user_id: string
+  category_id: string
   amount: number
-  type: 'income' | 'expense'
-  category: string
   description: string
   date: string
+  type: 'income' | 'expense'
   created_at: string
+  updated_at: string
 }
 
-export interface AIAdvice {
+// Category types
+export interface Category {
   id: string
   user_id: string
-  type: 'savings' | 'investment' | 'budget' | 'goal'
-  title: string
-  content: string
-  priority: 'low' | 'medium' | 'high'
+  name: string
+  color: string
+  icon: string
   created_at: string
-  is_read: boolean
+  updated_at: string
 }
 
-export interface DatabaseUser extends User {
-  updated_at?: string
+// Analytics types
+export interface CategorySpend {
+  category_id: string
+  category_name: string
+  total_amount: number
+  transaction_count: number
+  percentage: number
 }
 
-export interface DatabaseExpense extends Omit<Expense, 'updated_at'> {
-  updated_at?: string
+export interface MonthlyTrend {
+  month: string
+  income: number
+  expenses: number
+  net: number
 }
 
-export interface DatabaseGoal extends Omit<Goal, 'updated_at'> {
-  updated_at?: string
+export interface DailySpend {
+  date: string
+  amount: number
+  category_name: string
+  category_id: string
+}
+
+export interface AnalyticsFilters {
+  startDate: Date
+  endDate: Date
+  categoryIds?: string[]
+  transactionType?: 'income' | 'expense' | 'all'
+}
+
+export interface AnalyticsData {
+  categorySpends: CategorySpend[]
+  monthlyTrends: MonthlyTrend[]
+  incomeTotal: number
+  expensesTotal: number
+  balance: number
+  topExpenses: Transaction[]
+  anomalies: SpendingAnomaly[]
+}
+
+export interface SpendingAnomaly {
+  date: string
+  category_name: string
+  amount: number
+  percentageAboveAverage: number
+  reason?: string
+}
+
+export interface ForecastProjection {
+  month: string
+  projected_income: number
+  projected_expenses: number
+  projected_balance: number
+  confidence: number
+}
+
+// Pagination types
+export interface PaginationParams {
+  page: number
+  pageSize: number
+}
+
+export interface PaginatedResponse<T> {
+  data: T[]
+  total: number
+  page: number
+  pageSize: number
+  totalPages: number
+}
+
+// Export types
+export interface ExportOptions {
+  format: 'csv' | 'pdf'
+  includeCharts?: boolean
+  dateRange?: {
+    startDate: Date
+    endDate: Date
+  }
+}
+
+export interface ExportData {
+  fileName: string
+  content: string | Blob
+  mimeType: string
 }
