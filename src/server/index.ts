@@ -15,12 +15,12 @@ app.use('/api/analytics', analyticsRouter)
 app.use('/api/forecast', forecastRouter)
 
 // Health check
-app.get('/api/health', (req, res) => {
+app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' })
 })
 
 // Error handling
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error(err)
   res.status(err.status || 500).json({
     error: err.message || 'Internal Server Error',
