@@ -1,68 +1,109 @@
-# Spendwise - Expense Tracker
+# Spendwise Analytics Suite
 
-A modern, minimal expense tracking application built with React, TypeScript, and Supabase.
+A comprehensive analytics dashboard for the Spendwise expense tracking application. Built with React, TypeScript, Express, and Supabase, providing detailed financial insights with interactive charts, advanced filtering, and data export capabilities.
 
 ## Features
 
-- **Add Expenses**: Create expenses with amount, category, merchant, date, payment method, notes, and tags
-- **Client-side Validation**: Helpful error messages for form fields
-- **Category Management**: Default categories loaded from Supabase
-- **Merchant Suggestions**: Auto-suggest merchants based on past entries
-- **Real-time Sync**: Background syncing with Supabase real-time channel for instant updates
-- **Responsive Design**: Works on desktop and mobile devices
-- **Comprehensive Tests**: Unit and integration tests for validation and service operations
+### Analytics Dashboard
+- **Category Spending Breakdown** - Pie chart visualization of expenses by category
+- **Monthly Trends** - Multi-series bar chart showing income, expenses, and net cash flow
+- **Summary Statistics** - Quick overview of total income, expenses, and balance
+- **Spending Anomalies** - AI-assisted detection of unusual spending patterns
+- **Financial Forecasts** - Predictive projections for future months based on historical data
 
-## Tech Stack
+### Interactive Filters
+- Date range selection with preset ranges (7 days, 30 days, 90 days, 1 year)
+- Category filtering for focused analysis
+- Transaction type filtering (income, expense, or all)
+- Advanced filter options for power users
 
-- **Frontend**: React 18 with TypeScript
-- **State Management**: Zustand
-- **Forms**: React Hook Form
-- **Database**: Supabase
-- **Build Tool**: Vite
-- **Testing**: Vitest + React Testing Library
-- **Styling**: Tailwind CSS
-- **Linting**: ESLint with TypeScript support
+### Export Capabilities
+- **CSV Export** - Comprehensive data export with all metrics and category breakdowns
+- **PDF Export** - Professional formatted reports with charts and tables
+- Automated filename generation with timestamps
+
+### Data Management
+- Real-time data fetching from Supabase
+- Pagination and virtualization support for large datasets
+- Efficient data aggregation and calculations
+- Performance optimized queries
+
+## Technology Stack
+
+### Frontend
+- **React 18** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Build tool
+- **Tailwind CSS** - Styling
+- **Recharts** - Data visualization
+- **Lucide React** - Icons
+- **date-fns** - Date utilities
+
+### Backend
+- **Express.js** - Server framework
+- **TypeScript** - Type safety
+- **CORS** - Cross-origin support
+
+### Database & Auth
+- **Supabase** - PostgreSQL database with built-in auth
+- **@supabase/supabase-js** - Supabase client library
+
+### Testing
+- **Vitest** - Unit testing framework
+- **@testing-library/react** - React testing utilities
+- **@testing-library/jest-dom** - DOM matchers
+
+### Code Quality
+- **ESLint** - Linting
+- **Prettier** - Code formatting
+- **TypeScript** - Type checking
 
 ## Project Structure
 
 ```
-src/
-├── components/         # React components
-│   └── AddExpenseForm.tsx
-├── pages/             # Page components
-│   └── ExpensesPage.tsx
-├── services/          # API/Supabase services
-│   └── expenseService.ts
-├── store/             # Zustand store
-│   └── expenseStore.ts
-├── hooks/             # Custom React hooks
-│   ├── useExpenseSync.ts
-│   └── useMerchantSuggestions.ts
-├── lib/               # Utilities and configurations
-│   ├── supabase.ts
-│   └── validation.ts
-├── types/             # TypeScript type definitions
-│   └── expense.ts
-├── __tests__/         # Test files
-│   ├── validation.test.ts
-│   ├── expenseService.test.ts
-│   ├── expenseStore.test.ts
-│   └── AddExpenseForm.test.tsx
-├── test/              # Test setup
-│   └── setup.ts
-├── App.tsx            # Main app component
-├── main.tsx           # Entry point
-└── index.css          # Global styles
+spendwise/
+├── src/
+│   ├── client/              # React frontend
+│   │   ├── App.tsx          # Main App component
+│   │   ├── main.tsx         # Entry point
+│   │   └── index.css        # Global styles
+│   ├── server/              # Express backend
+│   │   ├── index.ts         # Server setup
+│   │   └── routes/          # API route handlers
+│   ├── components/          # React components
+│   │   ├── AnalyticsDashboard.tsx
+│   │   ├── SummaryStats.tsx
+│   │   ├── CategoryBreakdown.tsx
+│   │   ├── MonthlyTrends.tsx
+│   │   ├── AnalyticsFilters.tsx
+│   │   ├── ExportControls.tsx
+│   │   └── AnomaliesPanel.tsx
+│   ├── hooks/               # Custom React hooks
+│   │   └── useAnalyticsData.ts
+│   ├── utils/               # Utility functions
+│   │   ├── supabase.ts      # Supabase client setup
+│   │   ├── analyticsData.ts # Data fetching functions
+│   │   ├── filtering.ts     # Filter utilities
+│   │   ├── exporters.ts     # CSV/PDF export functions
+│   │   └── __tests__/       # Unit tests
+│   ├── types/               # TypeScript type definitions
+│   └── test/                # Test setup
+├── index.html               # HTML entry point
+├── package.json             # Dependencies
+├── tsconfig.json            # TypeScript config
+├── vite.config.ts           # Vite config
+├── vitest.config.ts         # Vitest config
+└── tailwind.config.js       # Tailwind CSS config
 ```
 
-## Getting Started
+## Installation
 
 ### Prerequisites
-
-- Node.js 18+ 
+- Node.js 16+
 - npm or yarn
+- Supabase account with configured database
 
-### Installation
+### Setup
 
 1. Clone the repository:
 ```bash
@@ -75,161 +116,204 @@ cd spendwise
 npm install
 ```
 
-3. Set up environment variables:
-```bash
-cp .env.example .env.local
+3. Environment Configuration:
+Create a `.env` file in the root directory:
+```env
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
-Fill in your Supabase credentials:
-```
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
+## Development
 
-### Development
+### Start Development Servers
 
-Start the development server:
+Frontend and backend:
 ```bash
 npm run dev
 ```
 
-The app will be available at `http://localhost:5173`
+Frontend only:
+```bash
+npm run dev:client
+```
 
-### Building
+Backend only:
+```bash
+npm run dev:server
+```
 
-Build for production:
+### Build
+
 ```bash
 npm run build
 ```
 
-### Testing
+This generates:
+- Client build in `dist/client`
+- Server build in `dist/server`
 
-Run all tests:
+## Testing
+
+### Run All Tests
 ```bash
 npm test
 ```
 
-Run tests with UI:
+### Watch Mode
 ```bash
-npm run test:ui
+npm run test:watch
 ```
 
-Run specific test file:
+### Coverage Report
 ```bash
-npm test -- src/__tests__/validation.test.ts
+npm test -- --coverage
 ```
+
+## Code Quality
 
 ### Linting
-
-Check code style:
 ```bash
 npm run lint
 ```
 
 ### Type Checking
-
-Run TypeScript type checking:
 ```bash
 npm run type-check
 ```
 
-## API Endpoints / Supabase Tables
+### Formatting
+```bash
+npm run format
+```
+
+## API Endpoints
+
+### Analytics
+- `POST /api/analytics/data` - Fetch comprehensive analytics data
+- `POST /api/analytics/categories` - Get category spending breakdown
+- `GET /api/analytics/trends` - Get monthly trends
+
+### Forecast
+- `GET /api/forecast/projections` - Get future month projections
+
+## Types
+
+### Main Types
+- `Transaction` - Individual transaction record
+- `Category` - Expense category
+- `AnalyticsData` - Complete analytics dataset
+- `AnalyticsFilters` - Filter parameters
+- `MonthlyTrend` - Monthly income/expense data
+- `CategorySpend` - Category spending summary
+- `SpendingAnomaly` - Detected spending anomaly
+- `ForecastProjection` - Predicted future financial data
+
+## Database Schema Requirements
 
 The application expects the following Supabase tables:
 
-### `expenses`
+### transactions
 ```sql
-CREATE TABLE expenses (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id VARCHAR NOT NULL,
-  amount DECIMAL NOT NULL,
-  category VARCHAR NOT NULL,
-  merchant VARCHAR NOT NULL,
+CREATE TABLE transactions (
+  id UUID PRIMARY KEY,
+  user_id UUID NOT NULL,
+  category_id UUID NOT NULL,
+  amount DECIMAL(10, 2) NOT NULL,
+  description TEXT,
   date DATE NOT NULL,
-  payment_method VARCHAR NOT NULL,
-  notes TEXT,
-  tags TEXT[],
+  type VARCHAR(10) NOT NULL, -- 'income' or 'expense'
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
 );
 ```
 
-### `categories`
+### categories
 ```sql
 CREATE TABLE categories (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name VARCHAR NOT NULL UNIQUE,
-  icon VARCHAR
+  id UUID PRIMARY KEY,
+  user_id UUID NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  color VARCHAR(7),
+  icon VARCHAR(50),
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
 );
 ```
 
-## Key Features Explained
+## Features Implementation Details
 
-### Add Expense Form
-The `AddExpenseForm` component provides a complete expense entry interface with:
-- Real-time form validation
-- Auto-suggestions for merchants from past entries
-- Tag management system
-- Error handling with user-friendly messages
+### Category Spending Breakdown
+- Aggregates expenses by category over selected date range
+- Calculates percentages of total spending
+- Includes transaction count per category
+- Displays as interactive pie chart with legend
 
-### Validation
-The `validateExpenseForm` function validates:
-- Amount must be greater than 0
-- Category is required
-- Merchant name is required
-- Date is a valid date
-- Payment method is selected
+### Monthly Trends
+- Calculates income, expenses, and net for each month
+- Supports customizable lookback period
+- Visualizes as multi-series bar chart
+- Enables year-over-year comparisons
 
-### Real-time Sync
-The `useExpenseSync` hook:
-- Subscribes to Supabase real-time updates
-- Automatically updates local state when expenses are created/updated
-- Works in background without user intervention
+### Spending Anomalies
+- Detects outliers using statistical analysis (2+ standard deviations)
+- Calculates percentage above average
+- Sorted by date (most recent first)
+- Highlights concerning spending patterns
 
-### Merchant Suggestions
-The `useMerchantSuggestions` hook:
-- Filters past merchants based on user input
-- Returns up to 5 most relevant suggestions
-- Updates dynamically as user types
+### Forecast Projections
+- Uses linear regression on historical data
+- Generates projections for up to 12 months
+- Includes confidence scores that decrease over time
+- Helps with financial planning
 
-## Testing
-
-The project includes comprehensive tests:
-
-### Unit Tests
-- **validation.test.ts**: Form validation logic
-- **expenseStore.test.ts**: Zustand store operations
-
-### Integration Tests
-- **expenseService.test.ts**: Supabase API mocking
-- **AddExpenseForm.test.tsx**: Component rendering and interactions
-
-All tests use Vitest and React Testing Library for accurate behavior verification.
+### Export Functionality
+- CSV format includes all numeric data
+- PDF format includes formatted tables and summary
+- Professional report generation
+- Automatic timestamp in filenames
 
 ## Performance Considerations
 
-- Lazy loading of expenses on page load
-- Merchant suggestions are memoized to prevent unnecessary re-renders
-- Real-time sync only activates when user ID is available
-- Form validation runs client-side before submission
+- **Pagination**: Supports pagination for large datasets
+- **Virtualization**: Charts render efficiently with Recharts
+- **Data Fetching**: Optimized Supabase queries with proper indexing
+- **Caching**: Consider implementing caching layer for historical data
+- **Real-time Updates**: Optional WebSocket integration for live updates
 
 ## Error Handling
 
-The application includes:
-- Validation error messages for each form field
-- Toast notifications for submission errors
-- Automatic error message dismissal after 3 seconds
-- Console logging for debugging
+- Comprehensive error boundaries
+- User-friendly error messages
+- Graceful degradation on data fetch failures
+- Retry mechanisms with exponential backoff
+- Detailed console logging for debugging
 
-## Future Enhancements
+## Accessibility
 
-- Expense filtering and search
-- Data export (CSV, PDF)
-- Budget tracking and alerts
-- Recurring expenses
-- Multi-currency support
-- Mobile app version
+- Semantic HTML structure
+- ARIA labels on interactive elements
+- Keyboard navigation support
+- Sufficient color contrast
+- Responsive design for all screen sizes
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Contributing
+
+1. Create a feature branch
+2. Make your changes
+3. Run tests and linting
+4. Submit a pull request
 
 ## License
 
 MIT
+
+## Support
+
+For issues and questions, please contact the development team or create an issue in the repository.

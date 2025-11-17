@@ -1,18 +1,42 @@
+# Dependencies
 node_modules/
-dist/
-build/
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+*.lcov
+
+# Production
+/dist
+/build
+
+# Misc
+.DS_Store
 .env
 .env.local
-.env.*.local
-*.pem
-.DS_Store
-*.log
+.env.development.local
+.env.test.local
+.env.production.local
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.vite/
-.vitest/
-.idea/
-.vscode/
-*.swp
-*.swo
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.iml
+
+# Logs
+logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
