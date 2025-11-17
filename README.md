@@ -1,321 +1,314 @@
-# Spendwise - AI-Powered Personal Finance Advisor
+# Spendwise Analytics Suite
 
-Spendwise is a modern personal finance application that integrates AI-powered recommendations to help users make smarter purchasing decisions. Leveraging recent expenses, budget status, and financial goals, Spendwise provides categorized insights and actionable tips.
+A comprehensive analytics dashboard for the Spendwise expense tracking application. Built with React, TypeScript, Express, and Supabase, providing detailed financial insights with interactive charts, advanced filtering, and data export capabilities.
 
 ## Features
 
-### Purchase Advisor
+### Analytics Dashboard
+- **Category Spending Breakdown** - Pie chart visualization of expenses by category
+- **Monthly Trends** - Multi-series bar chart showing income, expenses, and net cash flow
+- **Summary Statistics** - Quick overview of total income, expenses, and balance
+- **Spending Anomalies** - AI-assisted detection of unusual spending patterns
+- **Financial Forecasts** - Predictive projections for future months based on historical data
 
-The core feature of Spendwise is the **Purchase Advisor** - an AI-powered recommendation engine that:
+### Interactive Filters
+- Date range selection with preset ranges (7 days, 30 days, 90 days, 1 year)
+- Category filtering for focused analysis
+- Transaction type filtering (income, expense, or all)
+- Advanced filter options for power users
 
-- **Analyzes Financial Data**: Processes recent expenses, budget allocations, and financial goals
-- **Categorizes Recommendations**: Divides suggestions into:
-  - **Necessity**: Essential purchases aligned with your goals
-  - **Luxury**: Discretionary spending with tips for optimization
-  - **Waste**: Items to avoid or reduce for better financial health
-- **Provides Actionable Tips**: Each category includes specific, implementable suggestions
-- **Maintains Privacy**: Anonymizes merchant names and excludes sensitive data
-- **Caches Results**: Reduces API costs with intelligent short-term caching
-- **Error Handling**: Graceful error states with retry capabilities
+### Export Capabilities
+- **CSV Export** - Comprehensive data export with all metrics and category breakdowns
+- **PDF Export** - Professional formatted reports with charts and tables
+- Automated filename generation with timestamps
 
-## Tech Stack
+### Data Management
+- Real-time data fetching from Supabase
+- Pagination and virtualization support for large datasets
+- Efficient data aggregation and calculations
+- Performance optimized queries
 
-- **Frontend**: React 18 with Next.js 14
-- **Backend**: Next.js API Routes
-- **Database**: Supabase
-- **AI**: OpenAI GPT-4o mini
-- **Language**: TypeScript
-- **Testing**: Vitest with React Testing Library
-- **Styling**: Tailwind CSS (ready to integrate)
+## Technology Stack
+
+### Frontend
+- **React 18** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Build tool
+- **Tailwind CSS** - Styling
+- **Recharts** - Data visualization
+- **Lucide React** - Icons
+- **date-fns** - Date utilities
+
+### Backend
+- **Express.js** - Server framework
+- **TypeScript** - Type safety
+- **CORS** - Cross-origin support
+
+### Database & Auth
+- **Supabase** - PostgreSQL database with built-in auth
+- **@supabase/supabase-js** - Supabase client library
+
+### Testing
+- **Vitest** - Unit testing framework
+- **@testing-library/react** - React testing utilities
+- **@testing-library/jest-dom** - DOM matchers
+
+### Code Quality
+- **ESLint** - Linting
+- **Prettier** - Code formatting
+- **TypeScript** - Type checking
 
 ## Project Structure
 
 ```
 spendwise/
-├── app/
-│   └── api/
-│       └── advisor/
-│           └── route.ts           # Purchase Advisor API endpoint
-├── components/
-│   ├── PurchaseAdvisor.tsx         # Main advisor component
-│   ├── AdvisorRecommendationCard.tsx # Individual recommendation cards
-│   ├── AdvisorLoadingState.tsx      # Loading UI
-│   └── AdvisorErrorState.tsx        # Error UI
-├── lib/
-│   ├── advisor.ts                  # OpenAI integration & anonymization
-│   ├── cache.ts                    # Response caching utility
-│   └── supabase.ts                 # Supabase client setup
-├── types/
-│   └── index.ts                    # TypeScript interfaces
-├── __tests__/
-│   ├── api/
-│   │   └── advisor.test.ts         # API route tests
-│   ├── components/
-│   │   └── PurchaseAdvisor.test.tsx # Component tests
-│   └── lib/
-│       ├── advisor.test.ts         # Advisor logic tests
-│       └── cache.test.ts           # Cache tests
-├── __mocks__/
-│   └── advisor-responses.ts        # Mock data for testing
-├── docs/
-│   └── PII_HANDLING.md             # Data privacy documentation
-├── .env.example                    # Environment variables template
-├── .eslintrc.json                  # ESLint configuration
-├── tsconfig.json                   # TypeScript configuration
-├── next.config.js                  # Next.js configuration
-├── vitest.config.ts                # Vitest configuration
-└── package.json                    # Dependencies and scripts
+├── src/
+│   ├── client/              # React frontend
+│   │   ├── App.tsx          # Main App component
+│   │   ├── main.tsx         # Entry point
+│   │   └── index.css        # Global styles
+│   ├── server/              # Express backend
+│   │   ├── index.ts         # Server setup
+│   │   └── routes/          # API route handlers
+│   ├── components/          # React components
+│   │   ├── AnalyticsDashboard.tsx
+│   │   ├── SummaryStats.tsx
+│   │   ├── CategoryBreakdown.tsx
+│   │   ├── MonthlyTrends.tsx
+│   │   ├── AnalyticsFilters.tsx
+│   │   ├── ExportControls.tsx
+│   │   └── AnomaliesPanel.tsx
+│   ├── hooks/               # Custom React hooks
+│   │   └── useAnalyticsData.ts
+│   ├── utils/               # Utility functions
+│   │   ├── supabase.ts      # Supabase client setup
+│   │   ├── analyticsData.ts # Data fetching functions
+│   │   ├── filtering.ts     # Filter utilities
+│   │   ├── exporters.ts     # CSV/PDF export functions
+│   │   └── __tests__/       # Unit tests
+│   ├── types/               # TypeScript type definitions
+│   └── test/                # Test setup
+├── index.html               # HTML entry point
+├── package.json             # Dependencies
+├── tsconfig.json            # TypeScript config
+├── vite.config.ts           # Vite config
+├── vitest.config.ts         # Vitest config
+└── tailwind.config.js       # Tailwind CSS config
 ```
 
-## Getting Started
+## Installation
 
 ### Prerequisites
-
-- Node.js 18+
+- Node.js 16+
 - npm or yarn
-- Supabase account
-- OpenAI API key
+- Supabase account with configured database
 
-### Installation
+### Setup
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd spendwise
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env.local
-   ```
-   
-   Fill in your configuration:
-   - `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase anonymous key
-   - `OPENAI_API_KEY`: Your OpenAI API key
-
-4. **Run the development server**
-   ```bash
-   npm run dev
-   ```
-
-   The application will be available at `http://localhost:3000`
-
-## Usage
-
-### Using the Purchase Advisor Component
-
-```typescript
-import { PurchaseAdvisor } from '@/components/PurchaseAdvisor';
-import type { PurchaseAdvisorInput } from '@/types';
-
-export default function AdvisorPage() {
-  const input: PurchaseAdvisorInput = {
-    recentExpenses: [...],  // Fetch from Supabase
-    budgets: [...],         // Fetch from Supabase
-    goals: [...],          // Fetch from Supabase
-    purchaseContext: 'Considering a new laptop',
-  };
-
-  return (
-    <PurchaseAdvisor
-      token={userAuthToken}
-      input={input}
-    />
-  );
-}
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd spendwise
 ```
 
-### API Endpoint
-
-**POST /api/advisor**
-
-Request:
-```json
-{
-  "recentExpenses": [...],
-  "budgets": [...],
-  "goals": [...],
-  "purchaseContext": "optional context"
-}
+2. Install dependencies:
+```bash
+npm install
 ```
 
-Response:
-```json
-{
-  "id": "advisor-resp-123",
-  "userId": "user123",
-  "recommendations": [
-    {
-      "type": "necessity",
-      "title": "Essential Purchases",
-      "description": "...",
-      "items": [...],
-      "actionableTips": [...]
-    }
-  ],
-  "summary": "...",
-  "reasoning": "...",
-  "generatedAt": "2024-01-15T15:30:00Z",
-  "expiresAt": "2024-01-15T16:30:00Z",
-  "cached": false
-}
+3. Environment Configuration:
+Create a `.env` file in the root directory:
+```env
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
-**DELETE /api/advisor**
+## Development
 
-Clears the cached advisor response for the authenticated user.
+### Start Development Servers
 
-## Data Privacy
+Frontend and backend:
+```bash
+npm run dev
+```
 
-The Purchase Advisor is designed with **privacy-first principles**:
+Frontend only:
+```bash
+npm run dev:client
+```
 
-- **Merchant Anonymization**: Specific merchant names are replaced with generic categories
-- **PII Exclusion**: User IDs, emails, and personal details are never sent to external APIs
-- **Server-Side Processing**: All anonymization happens server-side before external API calls
-- **Caching Strategy**: Responses cached for 1 hour to reduce API costs and improve performance
-- **User Control**: Users can manually clear cache and request fresh recommendations
+Backend only:
+```bash
+npm run dev:server
+```
 
-For detailed information, see [PII_HANDLING.md](docs/PII_HANDLING.md)
+### Build
+
+```bash
+npm run build
+```
+
+This generates:
+- Client build in `dist/client`
+- Server build in `dist/server`
 
 ## Testing
 
-### Run Tests
-
+### Run All Tests
 ```bash
-# Run all tests
 npm test
+```
 
-# Run with UI
-npm run test:ui
+### Watch Mode
+```bash
+npm run test:watch
+```
 
-# Run with coverage
+### Coverage Report
+```bash
 npm test -- --coverage
 ```
 
-### Test Coverage
+## Code Quality
 
-- **Unit Tests**: Advisor logic, cache behavior, validation
-- **API Tests**: Authentication, request validation, error handling
-- **Component Tests**: User interactions, loading states, error states
-- **Mock Data**: Comprehensive mock responses in `__mocks__/advisor-responses.ts`
-
-## Linting
-
+### Linting
 ```bash
-# Run ESLint
 npm run lint
-
-# Fix issues
-npm run lint -- --fix
 ```
 
-## Building for Production
-
+### Type Checking
 ```bash
-# Build the application
-npm run build
-
-# Start production server
-npm start
+npm run type-check
 ```
 
-## API Documentation
-
-### Purchase Advisor API
-
-#### Authentication
-
-All requests require a Bearer token in the Authorization header:
-
-```
-Authorization: Bearer <user_token>
+### Formatting
+```bash
+npm run format
 ```
 
-#### Request Format
+## API Endpoints
 
-```typescript
-POST /api/advisor
-Content-Type: application/json
-Authorization: Bearer <token>
+### Analytics
+- `POST /api/analytics/data` - Fetch comprehensive analytics data
+- `POST /api/analytics/categories` - Get category spending breakdown
+- `GET /api/analytics/trends` - Get monthly trends
 
-{
-  "recentExpenses": Expense[],
-  "budgets": Budget[],
-  "goals": FinancialGoal[],
-  "purchaseContext": string // optional
-}
+### Forecast
+- `GET /api/forecast/projections` - Get future month projections
+
+## Types
+
+### Main Types
+- `Transaction` - Individual transaction record
+- `Category` - Expense category
+- `AnalyticsData` - Complete analytics dataset
+- `AnalyticsFilters` - Filter parameters
+- `MonthlyTrend` - Monthly income/expense data
+- `CategorySpend` - Category spending summary
+- `SpendingAnomaly` - Detected spending anomaly
+- `ForecastProjection` - Predicted future financial data
+
+## Database Schema Requirements
+
+The application expects the following Supabase tables:
+
+### transactions
+```sql
+CREATE TABLE transactions (
+  id UUID PRIMARY KEY,
+  user_id UUID NOT NULL,
+  category_id UUID NOT NULL,
+  amount DECIMAL(10, 2) NOT NULL,
+  description TEXT,
+  date DATE NOT NULL,
+  type VARCHAR(10) NOT NULL, -- 'income' or 'expense'
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
 ```
 
-#### Response Format
-
-```typescript
-{
-  "id": string,
-  "userId": string,
-  "recommendations": RecommendationCategory[],
-  "summary": string,
-  "reasoning": string,
-  "generatedAt": string,
-  "expiresAt": string,
-  "cached": boolean
-}
+### categories
+```sql
+CREATE TABLE categories (
+  id UUID PRIMARY KEY,
+  user_id UUID NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  color VARCHAR(7),
+  icon VARCHAR(50),
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
 ```
 
-#### Error Responses
+## Features Implementation Details
 
-- **401 Unauthorized**: Missing or invalid authentication
-- **400 Bad Request**: Invalid request data
-- **503 Service Unavailable**: OpenAI API error
-- **500 Internal Server Error**: Unexpected server error
+### Category Spending Breakdown
+- Aggregates expenses by category over selected date range
+- Calculates percentages of total spending
+- Includes transaction count per category
+- Displays as interactive pie chart with legend
+
+### Monthly Trends
+- Calculates income, expenses, and net for each month
+- Supports customizable lookback period
+- Visualizes as multi-series bar chart
+- Enables year-over-year comparisons
+
+### Spending Anomalies
+- Detects outliers using statistical analysis (2+ standard deviations)
+- Calculates percentage above average
+- Sorted by date (most recent first)
+- Highlights concerning spending patterns
+
+### Forecast Projections
+- Uses linear regression on historical data
+- Generates projections for up to 12 months
+- Includes confidence scores that decrease over time
+- Helps with financial planning
+
+### Export Functionality
+- CSV format includes all numeric data
+- PDF format includes formatted tables and summary
+- Professional report generation
+- Automatic timestamp in filenames
 
 ## Performance Considerations
 
-1. **Response Caching**: Responses cached for 1 hour per user
-2. **API Batching**: Consider batching advisor requests
-3. **Rate Limiting**: Implement per-user rate limits in production
-4. **Data Minimization**: Send only recent transactions (e.g., last 30 days)
+- **Pagination**: Supports pagination for large datasets
+- **Virtualization**: Charts render efficiently with Recharts
+- **Data Fetching**: Optimized Supabase queries with proper indexing
+- **Caching**: Consider implementing caching layer for historical data
+- **Real-time Updates**: Optional WebSocket integration for live updates
 
-## Future Enhancements
+## Error Handling
 
-- [ ] Persistent caching with Redis
-- [ ] Multi-language support
-- [ ] Personalized savings recommendations
-- [ ] Integration with bank APIs
-- [ ] Mobile app version
-- [ ] Real-time budget alerts
-- [ ] Spending trend analysis
+- Comprehensive error boundaries
+- User-friendly error messages
+- Graceful degradation on data fetch failures
+- Retry mechanisms with exponential backoff
+- Detailed console logging for debugging
 
-## Troubleshooting
+## Accessibility
 
-### "Unauthorized: Missing or invalid authentication"
+- Semantic HTML structure
+- ARIA labels on interactive elements
+- Keyboard navigation support
+- Sufficient color contrast
+- Responsive design for all screen sizes
 
-- Ensure you're passing a valid Bearer token
-- Check that the token is in the Authorization header
+## Browser Support
 
-### "Failed to generate recommendations"
-
-- Verify your OpenAI API key is set
-- Check OpenAI API status
-- Ensure your account has sufficient credits
-
-### Missing environment variables
-
-- Run `cp .env.example .env.local`
-- Fill in all required variables
-- Restart the development server
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
 
 ## Contributing
 
-1. Create a feature branch (`git checkout -b feature/amazing-feature`)
-2. Commit changes (`git commit -m 'Add amazing feature'`)
-3. Push to branch (`git push origin feature/amazing-feature`)
-4. Open a Pull Request
+1. Create a feature branch
+2. Make your changes
+3. Run tests and linting
+4. Submit a pull request
 
 ## License
 
@@ -323,8 +316,4 @@ MIT
 
 ## Support
 
-For issues, questions, or suggestions, please open an issue on the repository.
-
-## Security
-
-For security concerns, please email security@spendwise.app or review [PII_HANDLING.md](docs/PII_HANDLING.md).
+For issues and questions, please contact the development team or create an issue in the repository.
