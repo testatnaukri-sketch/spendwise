@@ -1,36 +1,109 @@
-# Spendwise - Financial Goals Management
+# Spendwise Analytics Suite
 
-A modern web application for managing financial goals with real-time progress tracking, built with React, TypeScript, and Supabase.
+A comprehensive analytics dashboard for the Spendwise expense tracking application. Built with React, TypeScript, Express, and Supabase, providing detailed financial insights with interactive charts, advanced filtering, and data export capabilities.
 
 ## Features
 
-- **Goal Management**: Create, edit, and archive financial goals
-- **Progress Tracking**: Track goal progress with visual indicators
-- **Real-time Updates**: Supabase subscriptions for live data synchronization
-- **Optimistic Updates**: Instant UI feedback with automatic rollback on errors
-- **Smart Validation**: Logical constraints for amounts and dates
-- **Filtering & Sorting**: Multiple options to organize goals
-- **Deadline Reminders**: Visual alerts for approaching deadlines
-- **Progress Updates**: Add incremental updates to track savings over time
+### Analytics Dashboard
+- **Category Spending Breakdown** - Pie chart visualization of expenses by category
+- **Monthly Trends** - Multi-series bar chart showing income, expenses, and net cash flow
+- **Summary Statistics** - Quick overview of total income, expenses, and balance
+- **Spending Anomalies** - AI-assisted detection of unusual spending patterns
+- **Financial Forecasts** - Predictive projections for future months based on historical data
 
-## Tech Stack
+### Interactive Filters
+- Date range selection with preset ranges (7 days, 30 days, 90 days, 1 year)
+- Category filtering for focused analysis
+- Transaction type filtering (income, expense, or all)
+- Advanced filter options for power users
 
-- **Frontend**: React 18 + TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **Database**: Supabase (PostgreSQL)
-- **Testing**: Vitest + React Testing Library
-- **Date Utilities**: date-fns
-- **Icons**: Lucide React
+### Export Capabilities
+- **CSV Export** - Comprehensive data export with all metrics and category breakdowns
+- **PDF Export** - Professional formatted reports with charts and tables
+- Automated filename generation with timestamps
 
-## Getting Started
+### Data Management
+- Real-time data fetching from Supabase
+- Pagination and virtualization support for large datasets
+- Efficient data aggregation and calculations
+- Performance optimized queries
+
+## Technology Stack
+
+### Frontend
+- **React 18** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Build tool
+- **Tailwind CSS** - Styling
+- **Recharts** - Data visualization
+- **Lucide React** - Icons
+- **date-fns** - Date utilities
+
+### Backend
+- **Express.js** - Server framework
+- **TypeScript** - Type safety
+- **CORS** - Cross-origin support
+
+### Database & Auth
+- **Supabase** - PostgreSQL database with built-in auth
+- **@supabase/supabase-js** - Supabase client library
+
+### Testing
+- **Vitest** - Unit testing framework
+- **@testing-library/react** - React testing utilities
+- **@testing-library/jest-dom** - DOM matchers
+
+### Code Quality
+- **ESLint** - Linting
+- **Prettier** - Code formatting
+- **TypeScript** - Type checking
+
+## Project Structure
+
+```
+spendwise/
+├── src/
+│   ├── client/              # React frontend
+│   │   ├── App.tsx          # Main App component
+│   │   ├── main.tsx         # Entry point
+│   │   └── index.css        # Global styles
+│   ├── server/              # Express backend
+│   │   ├── index.ts         # Server setup
+│   │   └── routes/          # API route handlers
+│   ├── components/          # React components
+│   │   ├── AnalyticsDashboard.tsx
+│   │   ├── SummaryStats.tsx
+│   │   ├── CategoryBreakdown.tsx
+│   │   ├── MonthlyTrends.tsx
+│   │   ├── AnalyticsFilters.tsx
+│   │   ├── ExportControls.tsx
+│   │   └── AnomaliesPanel.tsx
+│   ├── hooks/               # Custom React hooks
+│   │   └── useAnalyticsData.ts
+│   ├── utils/               # Utility functions
+│   │   ├── supabase.ts      # Supabase client setup
+│   │   ├── analyticsData.ts # Data fetching functions
+│   │   ├── filtering.ts     # Filter utilities
+│   │   ├── exporters.ts     # CSV/PDF export functions
+│   │   └── __tests__/       # Unit tests
+│   ├── types/               # TypeScript type definitions
+│   └── test/                # Test setup
+├── index.html               # HTML entry point
+├── package.json             # Dependencies
+├── tsconfig.json            # TypeScript config
+├── vite.config.ts           # Vite config
+├── vitest.config.ts         # Vitest config
+└── tailwind.config.js       # Tailwind CSS config
+```
+
+## Installation
 
 ### Prerequisites
+- Node.js 16+
+- npm or yarn
+- Supabase account with configured database
 
-- Node.js 18+ and npm
-- Supabase account and project
-
-### Installation
+### Setup
 
 1. Clone the repository:
 ```bash
@@ -43,130 +116,204 @@ cd spendwise
 npm install
 ```
 
-3. Set up environment variables:
-```bash
-cp .env.example .env
+3. Environment Configuration:
+Create a `.env` file in the root directory:
+```env
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
-Edit `.env` and add your Supabase credentials:
-```
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
+## Development
 
-4. Run database migrations:
+### Start Development Servers
 
-Execute the SQL files in `supabase/migrations/` in your Supabase SQL editor:
-- `001_create_goals_tables.sql`
-- `002_create_helper_functions.sql`
-
-5. Start the development server:
+Frontend and backend:
 ```bash
 npm run dev
 ```
 
-## Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm test` - Run tests
-- `npm run test:ui` - Run tests with UI
-- `npm run lint` - Lint code
-- `npm run typecheck` - Type check
-
-## Project Structure
-
-```
-src/
-├── components/
-│   ├── goals/          # Goal-specific components
-│   │   ├── GoalCard.tsx
-│   │   ├── GoalForm.tsx
-│   │   ├── GoalUpdateForm.tsx
-│   │   ├── GoalFilters.tsx
-│   │   └── GoalsList.tsx
-│   └── ui/             # Reusable UI components
-│       ├── Button.tsx
-│       ├── Input.tsx
-│       ├── Textarea.tsx
-│       ├── Modal.tsx
-│       └── ProgressBar.tsx
-├── hooks/
-│   └── useGoals.ts     # Custom hook for goal operations
-├── lib/
-│   └── supabase.ts     # Supabase client configuration
-├── types/
-│   └── database.ts     # TypeScript type definitions
-├── utils/
-│   └── goalCalculations.ts  # Goal calculation utilities
-└── test/
-    └── setup.ts        # Test configuration
+Frontend only:
+```bash
+npm run dev:client
 ```
 
-## Database Schema
+Backend only:
+```bash
+npm run dev:server
+```
 
-### goals table
-- `id` - UUID (Primary Key)
-- `user_id` - UUID (Foreign Key to auth.users)
-- `title` - TEXT (NOT NULL)
-- `description` - TEXT (nullable)
-- `target_amount` - NUMERIC(12, 2) (NOT NULL, > 0)
-- `current_amount` - NUMERIC(12, 2) (NOT NULL, >= 0)
-- `target_date` - DATE (NOT NULL, must be in future)
-- `created_at` - TIMESTAMP WITH TIME ZONE
-- `updated_at` - TIMESTAMP WITH TIME ZONE
-- `archived_at` - TIMESTAMP WITH TIME ZONE (nullable)
+### Build
 
-### goal_updates table
-- `id` - UUID (Primary Key)
-- `goal_id` - UUID (Foreign Key to goals)
-- `amount` - NUMERIC(12, 2) (NOT NULL)
-- `note` - TEXT (nullable)
-- `created_at` - TIMESTAMP WITH TIME ZONE
+```bash
+npm run build
+```
 
-## Features in Detail
-
-### Goal Creation
-- Set title, description, target amount, and target date
-- Validation ensures amounts are positive and dates are in the future
-- Optimistic updates provide instant feedback
-
-### Progress Tracking
-- Visual progress bars with color coding based on completion percentage
-- Automatic calculation of completion percentage
-- Days remaining countdown
-- Warning indicators for approaching deadlines
-
-### Real-time Synchronization
-- Supabase subscriptions keep all clients in sync
-- Changes made in one browser tab appear instantly in others
-- Automatic refetch on connection restore
-
-### Optimistic Updates
-- UI updates immediately on user actions
-- Automatic rollback if server operation fails
-- Error messages for failed operations
-
-### Filtering & Sorting
-- Search by title or description
-- Sort by date created, target date, or progress
-- Toggle to show/hide archived goals
+This generates:
+- Client build in `dist/client`
+- Server build in `dist/server`
 
 ## Testing
 
-The application includes comprehensive tests covering:
-- Goal calculation utilities
-- Goal CRUD operations
-- Form validation
-- State synchronization
-- Optimistic updates and rollback
-
-Run tests with:
+### Run All Tests
 ```bash
 npm test
 ```
 
+### Watch Mode
+```bash
+npm run test:watch
+```
+
+### Coverage Report
+```bash
+npm test -- --coverage
+```
+
+## Code Quality
+
+### Linting
+```bash
+npm run lint
+```
+
+### Type Checking
+```bash
+npm run type-check
+```
+
+### Formatting
+```bash
+npm run format
+```
+
+## API Endpoints
+
+### Analytics
+- `POST /api/analytics/data` - Fetch comprehensive analytics data
+- `POST /api/analytics/categories` - Get category spending breakdown
+- `GET /api/analytics/trends` - Get monthly trends
+
+### Forecast
+- `GET /api/forecast/projections` - Get future month projections
+
+## Types
+
+### Main Types
+- `Transaction` - Individual transaction record
+- `Category` - Expense category
+- `AnalyticsData` - Complete analytics dataset
+- `AnalyticsFilters` - Filter parameters
+- `MonthlyTrend` - Monthly income/expense data
+- `CategorySpend` - Category spending summary
+- `SpendingAnomaly` - Detected spending anomaly
+- `ForecastProjection` - Predicted future financial data
+
+## Database Schema Requirements
+
+The application expects the following Supabase tables:
+
+### transactions
+```sql
+CREATE TABLE transactions (
+  id UUID PRIMARY KEY,
+  user_id UUID NOT NULL,
+  category_id UUID NOT NULL,
+  amount DECIMAL(10, 2) NOT NULL,
+  description TEXT,
+  date DATE NOT NULL,
+  type VARCHAR(10) NOT NULL, -- 'income' or 'expense'
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+### categories
+```sql
+CREATE TABLE categories (
+  id UUID PRIMARY KEY,
+  user_id UUID NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  color VARCHAR(7),
+  icon VARCHAR(50),
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+## Features Implementation Details
+
+### Category Spending Breakdown
+- Aggregates expenses by category over selected date range
+- Calculates percentages of total spending
+- Includes transaction count per category
+- Displays as interactive pie chart with legend
+
+### Monthly Trends
+- Calculates income, expenses, and net for each month
+- Supports customizable lookback period
+- Visualizes as multi-series bar chart
+- Enables year-over-year comparisons
+
+### Spending Anomalies
+- Detects outliers using statistical analysis (2+ standard deviations)
+- Calculates percentage above average
+- Sorted by date (most recent first)
+- Highlights concerning spending patterns
+
+### Forecast Projections
+- Uses linear regression on historical data
+- Generates projections for up to 12 months
+- Includes confidence scores that decrease over time
+- Helps with financial planning
+
+### Export Functionality
+- CSV format includes all numeric data
+- PDF format includes formatted tables and summary
+- Professional report generation
+- Automatic timestamp in filenames
+
+## Performance Considerations
+
+- **Pagination**: Supports pagination for large datasets
+- **Virtualization**: Charts render efficiently with Recharts
+- **Data Fetching**: Optimized Supabase queries with proper indexing
+- **Caching**: Consider implementing caching layer for historical data
+- **Real-time Updates**: Optional WebSocket integration for live updates
+
+## Error Handling
+
+- Comprehensive error boundaries
+- User-friendly error messages
+- Graceful degradation on data fetch failures
+- Retry mechanisms with exponential backoff
+- Detailed console logging for debugging
+
+## Accessibility
+
+- Semantic HTML structure
+- ARIA labels on interactive elements
+- Keyboard navigation support
+- Sufficient color contrast
+- Responsive design for all screen sizes
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Contributing
+
+1. Create a feature branch
+2. Make your changes
+3. Run tests and linting
+4. Submit a pull request
+
 ## License
 
 MIT
+
+## Support
+
+For issues and questions, please contact the development team or create an issue in the repository.

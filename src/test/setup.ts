@@ -1,21 +1,16 @@
-import '@testing-library/jest-dom';
-import { expect, afterEach, vi } from 'vitest';
-import { cleanup } from '@testing-library/react';
+import '@testing-library/jest-dom'
+import { vi } from 'vitest'
 
-afterEach(() => {
-  cleanup();
-});
-
-vi.mock('../lib/supabase', () => ({
-  supabase: {
-    from: vi.fn(),
+// Mock Supabase
+vi.mock('@supabase/supabase-js', () => ({
+  createClient: vi.fn(() => ({
     auth: {
       getUser: vi.fn(),
     },
-    channel: vi.fn(() => ({
-      on: vi.fn().mockReturnThis(),
-      subscribe: vi.fn(),
-    })),
-    removeChannel: vi.fn(),
-  },
-}));
+    from: vi.fn(),
+  })),
+}))
+
+// Mock environment variables
+process.env.VITE_SUPABASE_URL = 'https://test.supabase.co'
+process.env.VITE_SUPABASE_ANON_KEY = 'test-key'
