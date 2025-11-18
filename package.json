@@ -15,9 +15,11 @@
     "test:watch": "vitest",
     "lint": "eslint src --ext .ts,.tsx",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "type-check:middleware": "tsc --project tsconfig.middleware.json --noEmit"
   },
   "dependencies": {
+    "next": "^14.0.0",
     "@supabase/supabase-js": "^2.38.4",
     "axios": "^1.6.2",
     "cors": "^2.8.5",
