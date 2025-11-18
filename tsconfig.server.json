@@ -3,6 +3,7 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "commonjs",
+    "moduleResolution": "node",
     "lib": ["ES2020"],
     "jsx": "react-jsx",
     "outDir": "./dist/server",
@@ -29,7 +30,8 @@
       "@/utils/*": ["./src/utils/*"],
       "@/types/*": ["./src/types/*"],
       "@/hooks/*": ["./src/hooks/*"],
-      "@/services/*": ["./src/services/*"]
+      "@/services/*": ["./src/services/*"],
+      "@/lib/*": ["./src/lib/*"]
     }
   },
   "include": ["src/server", "src/utils/analyticsData.ts", "src/utils/supabase.ts", "src/utils/filtering.ts", "src/types"],
